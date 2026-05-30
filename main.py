@@ -27,3 +27,18 @@ def creat_order(order: Order):
 @app.get("/orders")
 def get_order():
     return orders
+
+@app.delete("/order/{id}")
+def delete_order(id: int):
+    orders.pop(id)
+    return {
+        "message":"Заказ удален"
+    }
+    
+@app.put("/orders/{id}")
+def update_order(id: int, order: Order):
+    orders[id] = order
+    return {
+        "message": "Заказ обновлён"
+    }
+
