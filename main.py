@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
+orders = []
 
 class Order(BaseModel):
     watch: str
@@ -17,8 +18,12 @@ def get_products():
 
 @app.post("/order")
 def creat_order(order: Order):
+    orders.append(order)
     return {
         "message": "Заказ принят",
         "watch": order.watch,
         "customer": order.customer
     }
+@app.get("/orders")
+def get_order():
+    return orders
