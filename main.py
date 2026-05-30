@@ -8,15 +8,15 @@ class Order(BaseModel):
     customer: str
 
 @app.get("/product")
-def get_product():
+def get_products():
     return [
-        {"name": "Casio", "price": 19000},
-        {"name": "Hublot", "price": 20000},
-        {"name": "Patek Philippe", "price": 21234}
+        {"name": "Casio", "price": 13400},
+        {"name": "Hublot", "price": 45000},
+        {"name": "Rolex", "price": 44234}
     ]
 
 @app.post("/order")
-def creat_oreder(order: Order):
+def creat_order(order: Order):
     return {
         "message": "Заказ принят",
         "watch": order.watch,
