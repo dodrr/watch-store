@@ -4,9 +4,9 @@ from pydantic import BaseModel
 app = FastAPI()
 orders = []
 products = [
-    {"brand": "Casio", "price": 50000},
+    {"brand": "Casio", "price": 56000},
     {"brand": "Rolex", "price": 67000},
-    {"brand": "Hublot", "price": 35000}
+    {"brand": "Hublot", "price": 15000}
 ]
 
 class Order(BaseModel):
@@ -18,31 +18,31 @@ class OrderRespone(BaseModel):
     customer: str
     message: str
 
-
 @app.get("/product")
 def get_product():
     return products
 
 @app.get("/products")
-def search_products(max_price: int = None):
+def get_products(max_price: int = None):
     if max_price:
         return [p for p in products if p["price"] <= max_price]
     return products
+
+@app.get("/order")
+def get_orders():
+    return orders
 
 @app.post("/order", response_model=OrderRespone)
 def create_order(order: Order):
     orders.append(order)
     return {
-        "message": "Закза принят",
+        "message": "Заказ принят",
         "watch": order.watch,
         "customer": order.customer
     }
-@app.get("/order")
-def get_orders():
-    return orders
 
 @app.put("/orders/{id}")
-def update_orders(id: int, order: Order):
+def update_order(order: Order, id: int):
     if id >= len(orders):
         raise HTTPException(status_code=404, detail="Заказ не найден")
     orders[id] = order
@@ -51,7 +51,7 @@ def update_orders(id: int, order: Order):
     }
 
 @app.delete("/orders/{id}")
-def delete_orders(id: int):
+def delete_order(id: int):
     if id >= len(orders):
         raise HTTPException(status_code=404, detail="Заказ не найден")
     orders.pop(id)
