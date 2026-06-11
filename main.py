@@ -17,10 +17,11 @@ def get_db():
 class OrderSchema(BaseModel):
     watch: str
     customer: str
+    price: int
 
 @app.post("/order")
 def create_order(order: OrderSchema, db: Session = Depends(get_db)):
-    db_order = Order(watch=order.watch, customer=order.customer)
+    db_order = Order(watch=order.watch, customer=order.customer, price=order.price)
 
     db.add(db_order)
 
@@ -31,7 +32,9 @@ def create_order(order: OrderSchema, db: Session = Depends(get_db)):
     return db_order
 
 @app.get("/orders")
-def get_order(db: Session = Depends(get_db)):
+def get_order(db: Session = Depends(get_db), max_price: int = None):
+    if max_price:
+        return db.query(Order).filter(Order.price <= max_price).all()
     return db.query(Order).all()
 
 @app.put("/orders/{id}")
@@ -64,3 +67,4 @@ def delete_order(id: int, db: Session = Depends(get_db)):
     return {
         "message": "Заказ удален"
     }
+

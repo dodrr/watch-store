@@ -7,5 +7,5 @@ class Order(Base):
     id = Column(Integer, primary_key=True)
     watch = Column(String(100))
     customer = Column(String(100))
+    price = Column(Integer)
 
-    
