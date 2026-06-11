@@ -1,4 +1,4 @@
-from sqlalchemy import String, Column, Integer
+from sqlalchemy import String, Integer, Column
 from database import Base
 
 class Order(Base):
@@ -8,3 +8,4 @@ class Order(Base):
     watch = Column(String(100))
     customer = Column(String(100))
 
+    
