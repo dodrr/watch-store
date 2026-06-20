@@ -1,12 +1,19 @@
-# создаем таблицу на sqlalchemy и берем инструменты как(Таблица, Строке, Числа)
-from sqlalchemy import String, Integer, Column
-# Из database берем наш класс Base
+from sqlalchemy import String, Column, Integer
 from database import Base
-# создаем таблицу и подключаем наше название таблицы в Postgre
+
+class Products(Base):
+    __tablename__ = "products"
+    id = Column(Integer,primary_key=True)
+    name = Column(String(100))
+    brand = Column(String(100))
+    price = Column(Integer)
+    category = Column(String(100))
+
 class Order(Base):
     __tablename__ = "orders"
-# Делаем таблицу и добавляем все что нужно, часы, покупатель, цена, айди
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer,primary_key=True)
     watch = Column(String(100))
     customer = Column(String(100))
     price = Column(Integer)
+
+    
